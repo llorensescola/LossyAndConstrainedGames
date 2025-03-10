@@ -1,7 +1,7 @@
 import cvxpy as cp
 import numpy as np
 import itertools as it
-import time
+
 
 
 #Number of repetitions
@@ -29,12 +29,9 @@ def xa(x,a):
 def yb(y,b):
     return 1+X*A+y*B+b
 
-from toqito.states import basis
-import cmath
 
 # The basis: {|0>, |1>}:
-e_0, e_1 = basis(2, 0), basis(2, 1)
-
+e_0, e_1 = np.array([[1],[0]]), np.array([[0],[1]])
 # The basis: {|+>, |->}:
 e_p = (e_0 + e_1) / np.sqrt(2)
 e_m = (e_0 - e_1) / np.sqrt(2)
@@ -53,13 +50,13 @@ a_in, b_in = 2, 2
 V = np.zeros([dim, dim, a_out, b_out, a_in, b_in],dtype = 'complex_')
 
 # V(0,0|0,0) = |0><0|
-V[:, :, 0, 0, 0, 0] = e_0 * e_0.conj().T
+V[:, :, 0, 0, 0, 0] = e_0 @ e_0.conj().T
 # V(1,1|0,0) = |1><1|
-V[:, :, 1, 1, 0, 0] = e_1 * e_1.conj().T
+V[:, :, 1, 1, 0, 0] = e_1 @ e_1.conj().T
 # V(0,0|1,1) = |+><+|
-V[:, :, 0, 0, 1, 1] = e_p * e_p.conj().T
+V[:, :, 0, 0, 1, 1] = e_p @ e_p.conj().T
 # V(1,1|1,1) = |-><-|
-V[:, :, 1, 1, 1, 1] = e_m * e_m.conj().T
+V[:, :, 1, 1, 1, 1] = e_m @ e_m.conj().T
 
 def r_binary(num):
     # if 0 <= num < D:  # Ensure the number is in the range [0, D-1]
@@ -181,17 +178,7 @@ def probwin(ubound,lbound): #We no longer need eta
     for (x,a,y,b) in it.product(np.arange(X),np.arange(A),np.arange(Y),np.arange(B)):
         cons+=[M[xa(x,a)::n0,yb(y,b)::n0]==M[yb(y,b)::n0,xa(x,a)::n0]]
     
-    
-    # for (x,a,b) in it.product(np.arange(X),np.arange(A),np.arange(B)):
-    #     if a!=b:
-    #         cons+=[cp.trace(M[xa( x, a)::n0, yb( x, b)::n0]) == 0]
-     
-    #Maybe not necessary, since it can't be checked
-    #cons+=[cp.trace(cp.sum([M[xa( x, a)::n0, yb( x, a)::n0] for a in range(A) if '2' not in r_trinary(a) for x in range(X)]))==X*eta**r]
-            
-    #cons+=[cp.trace(cp.sum([M[xa( x, 2)::n0, yb( x, 2)::n0]  for x in range(X)]))==X*(1-eta)**r]
-            
-    
+  
     
     p_win = cp.Constant(0) 
     for (z,x,v,b) in it.product(np.arange(D),np.arange(X),np.arange(2**r),np.arange(B)):
@@ -201,25 +188,10 @@ def probwin(ubound,lbound): #We no longer need eta
     
     objective = cp.Maximize(cp.real(p_win))
     problem = cp.Problem(objective, cons)
-    start_time_SDP = time.time()
+    
     cs_val = problem.solve()
-    # Record the end time
-    end_time_SDP = time.time()
     
-    # Calculate the elapsed time
-    elapsed_time_SDP = end_time_SDP - start_time_SDP
-    
-    # Print the elapsed time
-    print(f"Elapsed time for the SDP: {elapsed_time_SDP} seconds")
     return cs_val/D
 
-print('Relativistic BC n=2. Without constraints')
-print('at most 0<=h2(b)<=1')
-print(probwin(1,0))
-print('------------------------------------------')
-print('No photon loss allowed')
-print('at most 0<=h2(b)<=0')
-print(probwin(0,0))
-# print(probwin(1,0,0))
 
     

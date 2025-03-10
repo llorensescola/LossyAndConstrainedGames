@@ -1,7 +1,6 @@
 import cvxpy as cp
 import numpy as np
 import itertools as it
-import time
 import math
 
 #Number of repetitions
@@ -29,10 +28,9 @@ def yb(y,b):
     return 1+X*A+y*B+b
 
 
-from toqito.states import basis
 
 
-e_0, e_1 = basis(2, 0), basis(2, 1)
+e_0, e_1 = np.array([[1],[0]]), np.array([[0],[1]])
 e_p = (e_0 + e_1) / np.sqrt(2)
 e_m = (e_0 - e_1) / np.sqrt(2)
 
@@ -41,13 +39,13 @@ e_m = (e_0 - e_1) / np.sqrt(2)
 V = np.zeros([dim, dim,2,2,2,2])
 
 # V(0,0|0,0) = |0><0|
-V[:, :, 0, 0, 0, 0] = e_0 * e_0.conj().T
+V[:, :, 0, 0, 0, 0] = e_0 @ e_0.conj().T
 # V(1,1|0,0) = |1><1|
-V[:, :, 1, 1, 0, 0] = e_1 * e_1.conj().T
+V[:, :, 1, 1, 0, 0] = e_1 @ e_1.conj().T
 # V(0,0|1,1) = |+><+|
-V[:, :, 0, 0, 1, 1] = e_p * e_p.conj().T
+V[:, :, 0, 0, 1, 1] = e_p @ e_p.conj().T
 # V(1,1|1,1) = |-><-|
-V[:, :, 1, 1, 1, 1] = e_m * e_m.conj().T
+V[:, :, 1, 1, 1, 1] = e_m @ e_m.conj().T
 
 # The probability matrix encode \pi(0,0) = \pi(1,1) = 1/2
 prob_mat = 1/X*np.identity(X) 
@@ -134,22 +132,10 @@ def probwin(eta):
     
     objective = cp.Maximize(cp.real(p_win))
     problem = cp.Problem(objective, cons)
-    start_time_SDP = time.time()
+   
     cs_val = problem.solve()
-    # Record the end time
-    end_time_SDP = time.time()
     
-    # Calculate the elapsed time
-    elapsed_time_SDP = end_time_SDP - start_time_SDP
-    # Print the elapsed time
-    print(f"Elapsed time for the SDP: {elapsed_time_SDP} seconds")
     return cs_val/X
-print('Forbiden ans: Parallel repetition QPV_BB84 level 1 with less outputs and simple constraints')
-r=[]
-for eta in np.arange(0.525,1,0.025):
-    sol=probwin(eta)
-    print(sol)
-    r.append(sol)
 
 
 

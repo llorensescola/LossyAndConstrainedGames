@@ -1,7 +1,7 @@
 import cvxpy as cp
 import numpy as np
 import itertools as it
-import time
+
 
 
 #Number of repetitions
@@ -28,10 +28,9 @@ def xa(x,a):
 def yb(y,b):
     return 1+X*A+y*B+b
 
-from toqito.states import basis
 
 # The basis: {|0>, |1>}:
-e_0, e_1 = basis(2, 0), basis(2, 1)
+e_0, e_1 = np.array([[1],[0]]), np.array([[0],[1]])
 
 # The basis: {|+>, |->}:
 e_p = (e_0 + e_1) / np.sqrt(2)
@@ -44,21 +43,21 @@ dim = 2
 V = np.zeros([dim, dim,A,B,X,Y])
 
 # V(0,0|0,0) = |0><0|
-V[:, :, 0, 0, 0, 0] = e_0 * e_0.conj().T
+V[:, :, 0, 0, 0, 0] = e_0 @ e_0.conj().T
 # V(1,1|0,0) = |1><1|
-V[:, :, 1, 1, 0, 0] = e_1 * e_1.conj().T
+V[:, :, 1, 1, 0, 0] = e_1 @ e_1.conj().T
 # V(0,0|1,1) = |+><+|
-V[:, :, 0, 0, 1, 1] = e_p * e_p.conj().T
+V[:, :, 0, 0, 1, 1] = e_p @ e_p.conj().T
 # V(1,1|1,1) = |-><-|
-V[:, :, 1, 1, 1, 1] = e_m * e_m.conj().T
+V[:, :, 1, 1, 1, 1] = e_m @ e_m.conj().T
 
-# The probability matrix encode \pi(0,0) = \pi(1,1) = 1/2
-prob_mat = 1/2*np.identity(2) 
 
 
 
 # The probability matrix encode \pi(0,0) = \pi(1,1)  \pi(2,2) = 1/3
 prob_mat = 1/X*np.identity(X)
+
+#The following function returns the upper bound corresponding to the level k=1 on the optimal winning probability given the constraint imposed by the parameter epsilon
 
 def probwin(epsilon):
     M = cp.Variable((n,n), hermitian=True)
@@ -120,16 +119,9 @@ def probwin(epsilon):
     
     objective = cp.Maximize(cp.real(p_win))
     problem = cp.Problem(objective, cons)
-    start_time_SDP = time.time()
+   
     cs_val = problem.solve()
-    # Record the end time
-    end_time_SDP = time.time()
     
-    # Calculate the elapsed time
-    elapsed_time_SDP = end_time_SDP - start_time_SDP
-    
-    # Print the elapsed time
-    #print(f"Elapsed time for the SDP: {elapsed_time_SDP} seconds")
     return cs_val
 
 
