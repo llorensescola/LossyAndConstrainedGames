@@ -9,8 +9,8 @@ pip3 install -r requirements.txt
 
 #### Constrained BB84 monogamy-of-entanglement game (Section 4.1)
 The files:
-1. `constrained_BB84_epsilon_MoE_game.py'corresponds to the Python program providing the upper bounds on the optimal winning probability plotted in Figure 2.
-2. `Optimization_epsilon_BB84_unentangled_strategies.nb', `Optimization_epsilon_BB84_2qubit_strategies.nb', and `Optimization_epsilon_BB84_MoE_strategy_3qubits.nb' correspond to the Mathematica programs providing the optimal values using unentangled, 2-qubit, and 3-qubit strategies, respectively, plotted in Figure 2.
+1. `constrained_BB84_epsilon_MoE_game.py` corresponds to the Python program providing the upper bounds on the optimal winning probability plotted in Figure 2.
+2. `Optimization_epsilon_BB84_unentangled_strategies.nb`, `Optimization_epsilon_BB84_2qubit_strategies.nb`, and `Optimization_epsilon_BB84_MoE_strategy_3qubits.nb` correspond to the Mathematica programs providing the optimal values using unentangled, 2-qubit, and 3-qubit strategies, respectively, plotted in Figure 2.
  
 ####  Alice guessing game with constraints (Section 4.2)
 The file `Alice_guessing_game_with_constraints.py' corresponds to the Python program used to obtain the upper vound plotted in Figure 3. The number of repetitions has to be fixed in the parameter $r$ at the begining of the code (see #Number of repetitions).
