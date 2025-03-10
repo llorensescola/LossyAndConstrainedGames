@@ -13,18 +13,18 @@ The files:
 2. `Optimization_epsilon_BB84_unentangled_strategies.nb`, `Optimization_epsilon_BB84_2qubit_strategies.nb`, and `Optimization_epsilon_BB84_MoE_strategy_3qubits.nb` correspond to the Mathematica programs providing the optimal values using unentangled, 2-qubit, and 3-qubit strategies, respectively, plotted in Figure 2.
  
 ####  Alice guessing game with constraints (Section 4.2)
-The file `Alice_guessing_game_with_constraints.py' corresponds to the Python program used to obtain the upper vound plotted in Figure 3. The number of repetitions has to be fixed in the parameter $r$ at the begining of the code (see #Number of repetitions).
+The file `Alice_guessing_game_with_constraints.py` corresponds to the Python program used to obtain the upper vound plotted in Figure 3. The number of repetitions has to be fixed in the parameter $r$ at the begining of the code (see #Number of repetitions).
 
 ####  Local guessing game (Section 4.3)
-The file `Local_guess_game.py' corresponds to the Python program used to obtain the values in Figure 4. The number of repetitions has to be fixed in the parameter $r$ at the begining of the code (see #Number of repetitions).
+The file `Local_guess_game.py` corresponds to the Python program used to obtain the values in Figure 4. The number of repetitions has to be fixed in the parameter $r$ at the begining of the code (see #Number of repetitions).
 
 ####  Lossy monogamy-of-entanglement games (Section 4.4)
 The files:
-1. `BB84_lossy_game.py' and `BB84_lossy_game_level_1AB.py'correspond to the Python programs used to obtain the values in Figure 5, using the level 1 and `1+AB', respectively.
-2. `3-bases_lossy_game.py' and `3-bases_lossy_game_level_1AB.py' 'correspond to the Python programs used to obtain the values in Figure 6, using the level 1 and `1+AB', respectively.
+1. `BB84_lossy_game.py` and `BB84_lossy_game_level_1AB.py` correspond to the Python programs used to obtain the values in Figure 5, using the level 1 and `1+AB', respectively.
+2. `3-bases_lossy_game.py` and `3-bases_lossy_game_level_1AB.py` correspond to the Python programs used to obtain the values in Figure 6, using the level 1 and `1+AB', respectively.
 
 ####  Application to Bit Commitment (Section 5.1.1)
-The file `Local_guess_game_accepting_loss.py' corresponds to the Python program used to obtain the values shown in Section 5.1.1. The number of thepetitions has to be set in the parameter r (see #Number of repetitions).
+The file `Local_guess_game_accepting_loss.py` corresponds to the Python program used to obtain the values shown in Section 5.1.1. The number of thepetitions has to be set in the parameter r (see #Number of repetitions).
 
 ####  Application to Quantum Position Verificaiton (Section 5.3.1)
-The file `parallel_BB84_lossy_game.py'corresponds to the Python program used to obtain the values in Figure 8. 
+The file `parallel_BB84_lossy_game.py` corresponds to the Python program used to obtain the values in Figure 8. 
